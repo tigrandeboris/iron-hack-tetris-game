@@ -5,7 +5,7 @@ class Board {
     squareSize = 10;
     canvasCtx;
     currentPosition = 4;
-    intervalId;
+    endCallback;
 
     constructor(canvasCtx) {
         this.canvasCtx = canvasCtx;
@@ -15,20 +15,13 @@ class Board {
         }
     }
 
-    start() {
-        this.insertBlock();
-        this.intervalId = setInterval(() =>{
-            this.moveDown();
-        }, 1000)
-    }
-
-    stop() {
-        clearInterval(this.intervalId);
-    }
-
     insertBlock() {
         this.currentBlock = new Block();
         this.currentPosition = 4;
+    }
+
+    step() {
+        this.moveDown();
     }
 
     rotate() {
@@ -105,16 +98,19 @@ class Board {
             this.currentBlock.position.forEach(index => {
                 this.squares[this.currentPosition + index] = 2;
             });
-
-            this.insertBlock();
-            this.draw();
             let ifMustEnd = this.currentBlock.position.some(index => {
-                return this.squares[this.currentPosition + index] > 1;
+                return this.squares[14 + index + this.squareSize] > 1;
             });
+            console.log(ifMustEnd);
             if(ifMustEnd) {
                 console.log('END')
-                this.stop();
+                this.endCallback();
+            }else{
+                this.insertBlock();
+                this.draw();
+
             }
+
         }
     }
 
@@ -127,7 +123,6 @@ class Board {
     }
 
     unDraw() {
-        console.log(this.currentBlock);
         this.currentBlock.position.forEach((x) => {
             this.squares[this.currentPosition + x] = 0;
         });
@@ -145,8 +140,10 @@ class Board {
                 this.canvasCtx.fillStyle = 'blue';
 
             } else if (value === 0) {
-                this.canvasCtx.fillStyle = 'white';
-            } else {
+                this.canvasCtx.fillStyle = 'gray';
+            } else if (value === 3) {
+                this.canvasCtx.fillStyle = 'green';
+            }else {
                 return;
             }
             this.canvasCtx.beginPath();

@@ -1,37 +1,33 @@
-
+let canvas = null;
 window.addEventListener('load', () => {
-    let start = document.querySelector('div.start');
-    let game = document.querySelector('div.game');
-    let end = document.querySelector('div.end');
+    let startScreen = document.querySelector('div.start');
+    let gameScreen = document.querySelector('div.game');
+    let endScreen = document.querySelector('div.end');
     let startBtn = document.querySelector('button.start');
     let retryBtn = document.querySelector('button.retry');
-    let canvas = document.getElementById('canvas');
-    let ctx = canvas.getContext('2d');
-    let board = new Board(ctx);
 
-    function control(e) {
-        if(e.keyCode === 37) {
-            board.moveLeft()
-        } else if (e.keyCode === 32) {
-            board.rotate()
-        } else if (e.keyCode === 39) {
-            board.moveRight()
-        } else if (e.keyCode === 40) {
-            board.moveDown()
-        }
-    }
-    document.addEventListener('keyup', control)
 
     startBtn.addEventListener('click', () => {
-        start.style.display = 'none';
-        game.style.display = 'block';
-        board.start();
+        startScreen.style.display = 'none';
+        gameScreen.style.display = 'block';
+        canvas = document.createElement('canvas');
+        gameScreen.appendChild(canvas)
+        let canvasCtx = canvas.getContext('2d');
+        let game = new Game(canvasCtx);
+        document.addEventListener('keyup', (event) => {
+            game.processEvent(event);
+        });
+        game.start(() => {
+            gameScreen.style.display = 'none';
+            endScreen.style.display = 'block';
+            canvas.remove();
+        });
     })
 
     retryBtn.addEventListener('click', () => {
-        end.style.display = 'none';
-        game.style.display = 'none';
-        start.style.display = 'block';
+        endScreen.style.display = 'none';
+        gameScreen.style.display = 'none';
+        startScreen.style.display = 'block';
     })
 
 

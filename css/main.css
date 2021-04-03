@@ -1,6 +1,6 @@
 .game, .end {
     display: none;
 }
-#canvas {
+canvas {
     height: 150px;
 }
