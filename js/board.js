@@ -1,23 +1,31 @@
 class Board {
     currentBlock;
-    width = 10;
-    height = 15;
-    squareSize = 10;
+    width = 15;
+    height = 20;
+    squareSize = 30;
     canvasCtx;
-    currentPosition = 4;
+    currentPosition = 6;
     endCallback;
+    scoreUpdateCallback;
+    score = 0;
 
     constructor(canvasCtx) {
         this.canvasCtx = canvasCtx;
-        this.squares = (new Array(this.width * (this.height - 1))).fill(0);
-        for (let i =1; i<=this.width;i++) {
-            this.squares.push(3);
-        }
+        this.canvasCtx.canvas.height = this.height * this.squareSize;
+        this.canvasCtx.canvas.width = this.width * this.squareSize;
+        this.init();
+    }
+
+    init() {
+        this.squares = (new Array(this.width * this.height)).fill(0);
+        this.insertBlock();
+        this.refreshCanvas();
     }
 
     insertBlock() {
         this.currentBlock = new Block();
-        this.currentPosition = 4;
+        this.currentPosition = 6;
+        this.draw();
     }
 
     step() {
@@ -33,7 +41,7 @@ class Board {
 
     moveDown() {
         this.unDraw();
-        this.currentPosition += this.squareSize;
+        this.currentPosition += this.width;
         this.draw();
         this.freeze();
     }
@@ -41,7 +49,7 @@ class Board {
     moveLeft() {
         this.unDraw();
         const isAtLeftEdge = this.currentBlock.position.some(index => {
-            return (this.currentPosition + index) % this.squareSize === 0;
+            return (this.currentPosition + index) % this.width === 0;
         });
         if (!isAtLeftEdge) this.currentPosition -= 1;
         if (this.currentBlock.position.some(index => {
@@ -55,8 +63,8 @@ class Board {
     moveRight() {
         this.unDraw();
         const isAtRightEdge = this.currentBlock.position.some(
-            index => (this.currentPosition + index) % this.squareSize ===
-                this.squareSize - 1);
+            index => (this.currentPosition + index) % this.width ===
+                this.width - 1);
         if (!isAtRightEdge) this.currentPosition += 1;
         if (this.currentBlock.position.some(index => {
             return this.squares[this.currentPosition + index] === 2;
@@ -67,22 +75,22 @@ class Board {
     }
 
     isAtRight() {
-        return this.currentBlock.position.some(index=> (this.currentPosition + index + 1) % this.squareSize === 0)
+        return this.currentBlock.position.some(index=> (this.currentPosition + index + 1) % this.width === 0)
     }
 
     isAtLeft() {
-        return this.currentBlock.position.some(index=> (this.currentPosition + index) % this.squareSize === 0)
+        return this.currentBlock.position.some(index=> (this.currentPosition + index) % this.width === 0)
     }
 
     checkRotatedPosition(position){
         position = position || this.currentPosition
-        if ((position+1) % this.squareSize < 4) {
+        if ((position+1) % this.width < 4) {
             if (this.isAtRight()){
                 this.currentPosition += 1
                 this.checkRotatedPosition(position)
             }
         }
-        else if (position % this.squareSize > 5) {
+        else if (position % this.width > 5) {
             if (this.isAtLeft()){
                 this.currentPosition -= 1
                 this.checkRotatedPosition(position)
@@ -92,65 +100,85 @@ class Board {
 
     freeze() {
         let collision = this.currentBlock.position.some(index => {
-            return this.squares[this.currentPosition + index + this.squareSize] === 2 || this.squares[this.currentPosition + index + this.squareSize] === 3;
+            return this.currentPosition + index + this.width >= this.squares.length || this.squares[this.currentPosition + index + this.width] === 2;
         })
         if (collision) {
+            this.unDraw();
             this.currentBlock.position.forEach(index => {
                 this.squares[this.currentPosition + index] = 2;
             });
-            let ifMustEnd = this.currentBlock.position.some(index => {
-                return this.squares[14 + index + this.squareSize] > 1;
-            });
-            console.log(ifMustEnd);
-            if(ifMustEnd) {
-                console.log('END')
-                this.endCallback();
-            }else{
-                this.insertBlock();
-                this.draw();
+            this.refreshCanvas();
 
+            this.addScore();
+
+            let ifMustEnd = this.currentPosition < 4 * this.width + 6;
+
+            if(ifMustEnd) {
+                this.endCallback();
+            } else {
+                this.insertBlock();
+            }
+        }
+    }
+
+    addScore() {
+        for (let i = 0; i < this.squares.length; i +=this.width) {
+            const row = [];
+            for(let j = 0; j < this.width; j++) {
+                row.push(i+j);
             }
 
+            if(row.every(index => this.squares[index] === 2)) {
+                this.score +=this.width;
+                this.scoreUpdateCallback(this.score);
+                row.forEach(index => {
+                    this.squares[index] = 0;
+                })
+                const squaresRemoved = this.squares.splice(i, this.width);
+                this.squares = squaresRemoved.concat(this.squares);
+            }
         }
     }
 
     draw() {
-        this.currentBlock.position.forEach((x) => {
-            this.squares[this.currentPosition + x] = 1;
+        this.currentBlock.position.forEach((index) => {
+            this.squares[this.currentPosition + index] = 1;
         });
 
         this.refreshCanvas();
     }
 
     unDraw() {
-        this.currentBlock.position.forEach((x) => {
-            this.squares[this.currentPosition + x] = 0;
+        this.currentBlock.position.forEach((index) => {
+            this.squares[this.currentPosition + index] = 0;
         });
-        this.refreshCanvas();
     }
+
+
 
     refreshCanvas() {
 
         this.squares.forEach((value, index) => {
-
-            if (value === 1) {
-                this.canvasCtx.fillStyle = 'red';
-
-            } else if (value === 2) {
-                this.canvasCtx.fillStyle = 'blue';
-
-            } else if (value === 0) {
-                this.canvasCtx.fillStyle = 'gray';
-            } else if (value === 3) {
-                this.canvasCtx.fillStyle = 'green';
-            }else {
-                return;
-            }
-            this.canvasCtx.beginPath();
-            let x = (index % (this.width)) * this.squareSize;
+            let x = (index % this.width) * this.squareSize;
             let y = Math.floor(index / this.width) * this.squareSize;
-            this.canvasCtx.rect(x, y, this.squareSize, this.squareSize);
-            this.canvasCtx.fill();
+            this.canvasCtx.beginPath();
+            this.canvasCtx.strokeStyle = "#ffffff";
+            switch (value) {
+                case 0:
+                    this.canvasCtx.fillStyle = '#484848';
+                    break;
+                case 1:
+                    this.canvasCtx.fillStyle = this.currentBlock.color;
+                    this.canvasCtx.strokeRect(x, y, this.squareSize, this.squareSize);
+                    break;
+                case 2:
+                    this.canvasCtx.fillStyle = '#777777';
+                    this.canvasCtx.strokeRect(x, y, this.squareSize, this.squareSize);
+                    break;
+            }
+            //this.canvasCtx.stroke = 'black'
+
+            this.canvasCtx.fillRect(x, y, this.squareSize, this.squareSize);
         });
     }
 }

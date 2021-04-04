@@ -1,6 +1,49 @@
-.game, .end {
-    display: none;
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
+
+#app {
+    width: 450px;
+    margin: 0 auto;
+}
+
+.game-screen, .end-screen {
+    display: none;
+    text-align: center;
+}
+
 canvas {
-    height: 150px;
+
+}
+
+.start-screen {
+    text-align: center;
+}
+
+.end-screen {
+    text-align: center;
+}
+
+.retry {
+    display: inline-block;
+    background-color: white;
+    color: darkslategray;
+    line-height: 3;
+    width: 160px;
+    padding: 5px;
+    border-radius: 4px;
+    border: 2px solid darkgreen;
+}
+
+.start {
+    display: inline-block;
+    background-color: white;
+    color: darkslategray;
+    line-height: 3;
+    width: 160px;
+    padding: 5px;
+    border-radius: 4px;
+    border: 2px solid darkgreen;
 }

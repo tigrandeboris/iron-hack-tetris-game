@@ -1,33 +1,45 @@
 class Game {
-    intervalId;
+    intervalId = 0;
+    endCallback;
 
-    constructor(canvasCtx) {
+    constructor(canvasCtx, scoreUpdateCallback) {
         this.board = new Board(canvasCtx);
         this.board.endCallback = this.stop.bind(this);
+        this.board.scoreUpdateCallback = scoreUpdateCallback;
     }
 
     start(endCallback) {
         this.endCallback = endCallback;
-        this.board.insertBlock();
         this.intervalId = setInterval(() => {
             this.board.step();
-        }, 1000);
+        }, 500);
     }
 
     stop() {
         clearInterval(this.intervalId);
-        this.endCallback();
+        this.intervalId = 0;
+        window.setTimeout(() => {
+            this.endCallback();
+        }, 1000);
+
     }
 
-    processEvent(e) {
-        if (e.keyCode === 37) {
-            this.board.moveLeft();
-        } else if (e.keyCode === 32) {
-            this.board.rotate();
-        } else if (e.keyCode === 39) {
-            this.board.moveRight();
-        } else if (e.keyCode === 40) {
-            this.board.moveDown();
+    handleEvent (event) {
+        if(this.intervalId === 0) {
+            return;
+        }
+        switch (event.keyCode) {
+            case 40:
+                this.board.moveDown();
+                break;
+            case 37:
+                this.board.moveLeft();
+                break;
+            case 39:
+                this.board.moveRight();
+                break;
+            case 32:
+                this.board.rotate();
         }
     }
 }
