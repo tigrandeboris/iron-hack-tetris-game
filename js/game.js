@@ -6,6 +6,8 @@ class Game {
         this.board = new Board(canvasCtx);
         this.board.endCallback = this.stop.bind(this);
         this.board.scoreUpdateCallback = scoreUpdateCallback;
+        this.sounds = new Sounds;
+        this.board.playLineCallback = this.playLine.bind(this);
     }
 
     start(endCallback) {
@@ -20,6 +22,7 @@ class Game {
         this.intervalId = 0;
         window.setTimeout(() => {
             this.endCallback();
+            this.playGameOver();
         }, 1000);
 
     }
@@ -30,16 +33,30 @@ class Game {
         }
         switch (event.keyCode) {
             case 40:
+                this.playMove();
                 this.board.moveDown();
                 break;
             case 37:
+                this.playMove();
                 this.board.moveLeft();
                 break;
             case 39:
+                this.playMove();
                 this.board.moveRight();
                 break;
             case 32:
+                this.playMove();
                 this.board.rotate();
         }
+    }
+
+    playLine() {
+        this.sounds.playLine();
+    }
+    playGameOver() {
+        this.sounds.playGameOver();
+    }
+    playMove() {
+        this.sounds.playMove();
     }
 }

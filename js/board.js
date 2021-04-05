@@ -8,6 +8,7 @@ class Board {
     endCallback;
     scoreUpdateCallback;
     score = 0;
+    playLineCallback;
 
     constructor(canvasCtx) {
         this.canvasCtx = canvasCtx;
@@ -131,6 +132,7 @@ class Board {
             if(row.every(index => this.squares[index] === 2)) {
                 this.score +=this.width;
                 this.scoreUpdateCallback(this.score);
+                this.playLineCallback();
                 row.forEach(index => {
                     this.squares[index] = 0;
                 })

@@ -14,9 +14,29 @@ outcome, the higher their score will be.
 
 ### **Data structure**
 
-1. class Block with figure blocks,
+1. class Block,
 2. class Board,
-3. 
+3. class Game,
+4. init(),
+5. insertBlock(),
+6. step(),
+7. rotate(),
+8. moveDown(),
+9. moveLeft(),
+10. moveRight(),
+11. isAtLeftt(),
+12. isAtRight(),
+13. checkRotatedPosition(),
+14. freeze(),
+15. addScore().
+16. draw(),
+17. unDraw(),
+18. refreshCanvas(),
+19. build(),
+20. randomColor(),
+21. start(),
+22. stop(),
+23. handleEvent(),
 
 ### **States y States Transitions**
 
@@ -32,9 +52,10 @@ outcome, the higher their score will be.
 4. Define the controllers,
 5. Design the canvas,
 6. Add the Splash and Game Over screens,
-7. Make some final touches.
+7. Add sounds,
+8. Make some final touches.
 
 ### **Link**
 
-1. Git - 
+1. GitHab - https://github.com/tigrandeboris/iron-hack-tetris-game.git
 

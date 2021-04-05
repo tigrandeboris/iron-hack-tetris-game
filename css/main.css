@@ -9,7 +9,7 @@
 }
 
 .start-screen {
-    background-image: url("../src/tetris-start-screen-background.jpg");
+    background-image: url("../images/tetris-start-screen-background.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     width: 1535px;
@@ -17,7 +17,7 @@
 }
 
 .game-screen {
-    background-image: url("../src/tetris-game-screen-background.jpg");
+    background-image: url("../images/tetris-game-screen-background.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     width: 1535px;
@@ -25,7 +25,7 @@
 }
 
 .end-screen {
-    background-image: url("../src/tetris-game-over-screen-background.jpg");
+    background-image: url("../images/tetris-game-over-screen-background.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     width: 1535px;
@@ -33,7 +33,6 @@
 }
 
 .score {
-
     padding: 7px;
     font-size: 2rem;
     color: white;

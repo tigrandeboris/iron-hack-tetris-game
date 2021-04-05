@@ -5,8 +5,8 @@ window.addEventListener('load', () => {
     let endScreen = document.querySelector('div.end-screen');
     let startBtn = document.querySelector('button.start');
     let retryBtn = document.querySelector('button.retry');
-    let score1 = document.querySelector('.game-screen .score');
-    let score2 = document.querySelector('.end-screen .score');
+    let score1 = document.querySelector('.game-screen .score span');
+    let score2 = document.querySelector('.end-screen .score span');
 
 
     startBtn.addEventListener('click', () => {
