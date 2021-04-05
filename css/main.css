@@ -4,23 +4,40 @@
     box-sizing: border-box;
 }
 
-body {
+#app {
+    width: 450px;
+}
+
+.start-screen {
     background-image: url("../src/tetris-start-screen-background.jpg");
     background-repeat: no-repeat;
     background-size: cover;
+    width: 1535px;
+    height: 720px;
 }
 
-#app {
-    width: 450px;
-    margin: 10px auto;
+.game-screen {
+    background-image: url("../src/tetris-game-screen-background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 1535px;
+    height: 720px;
+}
+
+.end-screen {
+    background-image: url("../src/tetris-game-over-screen-background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 1535px;
+    height: 720px;
 }
 
 .score {
-    background-color: white;
-    padding: 10px;
+
+    padding: 7px;
     font-size: 2rem;
-    border: 5px solid lawngreen;
-    border-radius: 8px;
+    color: white;
+
 }
 
 .game-screen, .end-screen {
@@ -43,7 +60,7 @@ body {
     font-size: 20px;
     line-height: 2;
     width: 120px;
-    margin-top: 14.3rem;
+    margin-top: 23rem;
     border-radius: 4px;
     border: 5px solid lawngreen;
 }
@@ -55,7 +72,7 @@ body {
     font-size: 20px;
     line-height: 2;
     width: 120px;
-    margin-top: 15.5rem;
+    margin-top: 16rem;
     border-radius: 4px;
     border: 5px solid lawngreen;
 }
