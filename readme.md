@@ -10,6 +10,8 @@ outcome, the higher their score will be.
 
 ### **MVP (DOM - Canvas)**
 
+Tetris game with basic functions.
+
 ### **Backlog**
 
 ### **Data structure**
@@ -37,6 +39,10 @@ outcome, the higher their score will be.
 21. start(),
 22. stop(),
 23. handleEvent(),
+24. class Sound,
+25. playLine(),
+26. playGameOver(),
+27. playMove().
 
 ### **States y States Transitions**
 
@@ -58,4 +64,4 @@ outcome, the higher their score will be.
 ### **Link**
 
 1. GitHab - https://github.com/tigrandeboris/iron-hack-tetris-game.git
-
+2. Trello - https://trello.com/b/ccvfZq9e/porject-1-tetris-game
