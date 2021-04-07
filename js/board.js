@@ -112,7 +112,7 @@ class Board {
 
             this.addScore();
 
-            let ifMustEnd = this.currentPosition < 4 * this.width + 6;
+            let ifMustEnd = this.currentPosition < 3 * this.width + 6;
 
             if(ifMustEnd) {
                 this.endCallback();
