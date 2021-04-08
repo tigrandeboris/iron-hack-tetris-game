@@ -41,7 +41,9 @@ Tetris game with basic functions.
 23. handleEvent(),
 24. class Sound,
 25. playLine(),
-26. playGameOver().
+26. playGameOver(),
+27. getTime().
+
 ### **States y States Transitions**
 
 1. Splash screen,

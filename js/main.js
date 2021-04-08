@@ -7,6 +7,8 @@ window.addEventListener('load', () => {
     let retryBtn = document.querySelector('button.retry');
     let score1 = document.querySelector('.game-screen .score span');
     let score2 = document.querySelector('.end-screen .score span');
+    let chronometerTime = document.querySelector('.game-screen .time');
+    let endTime = document.querySelector('.end-screen .endTime');
 
 
     startBtn.addEventListener('click', () => {
@@ -20,20 +22,25 @@ window.addEventListener('load', () => {
             score2.innerText = value;
         });
         document.addEventListener('keydown', game.handleEvent.bind(game));
+        let chronometer = new Chronometer();
         game.start(() => {
             gameScreen.style.display = 'none';
             endScreen.style.display = 'block';
             canvas.remove();
+            chronometer.stopTimer();
         });
+
+        chronometer.startTimer((time) => {
+            chronometerTime.innerText = time;
+            endTime.innerText = time;
+        })
     })
 
     retryBtn.addEventListener('click', () => {
         endScreen.style.display = 'none';
         startScreen.style.display = 'block';
+        chronometerTime.innerText = '00:00';
     })
-
-
-
 })
 
 

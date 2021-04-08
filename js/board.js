@@ -109,11 +109,8 @@ class Board {
                 this.squares[this.currentPosition + index] = 2;
             });
             this.refreshCanvas();
-
             this.addScore();
-
             let ifMustEnd = this.currentPosition < 3 * this.width + 6;
-
             if(ifMustEnd) {
                 this.endCallback();
             } else {
